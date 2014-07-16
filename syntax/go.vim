@@ -42,7 +42,23 @@ if !exists("go_highlight_space_tab_error")
     let go_highlight_space_tab_error = 1
 endif
 if !exists("go_highlight_trailing_whitespace_error")
-    let go_highlight_trailing_whitespace_error = 1
+  let go_highlight_trailing_whitespace_error = 1
+endif
+
+if !exists("go_highlight_operators")
+	let go_highlight_operators = 1
+endif
+
+if !exists("go_highlight_functions")
+	let go_highlight_functions = 1
+endif
+
+if !exists("go_highlight_methods")
+	let go_highlight_methods = 1
+endif
+
+if !exists("go_highlight_structs")
+	let go_highlight_structs = 1
 endif
 
 syn case match
@@ -196,6 +212,55 @@ endif
 
 hi def link     goExtraType         Type
 hi def link     goSpaceError        Error
+
+
+
+" included from: https://github.com/athom/more-colorful.vim/blob/master/after/syntax/go.vim
+"
+" Comments; their contents
+syn keyword     goTodo              contained NOTE
+hi def link     goTodo              Todo
+
+
+" Operators; 
+if go_highlight_operators != 0
+	syn match goOperator /:=/
+	syn match goOperator />=/
+	syn match goOperator /<=/
+	syn match goOperator /==/
+	syn match goOperator /!=/
+	syn match goOperator /+=/
+	syn match goOperator /-=/
+	syn match goOperator /\s>\s/
+	syn match goOperator /\s<\s/
+	syn match goOperator /\s+\s/
+	syn match goOperator /\s-\s/
+	syn match goOperator /\s\*\s/
+	syn match goOperator /\s\/\s/
+	syn match goOperator /\s%\s/
+endif
+hi def link     goOperator					Operator
+
+" Functions; 
+if go_highlight_functions != 0
+	syn match goFunction							/\(func\s\+\)\@<=\w\+\((\)\@=/
+	syn match goFunction							/\()\s\+\)\@<=\w\+\((\)\@=/
+endif
+hi def link     goFunction					Function
+
+" Methods; 
+if go_highlight_methods != 0
+	syn match goMethod								/\(\.\)\@<=\w\+\((\)\@=/
+endif
+hi def link     goMethod						Type
+
+" Structs; 
+if go_highlight_structs != 0
+	syn match goStruct								/\(.\)\@<=\w\+\({\)\@=/
+	syn match goStructDef							/\(type\s\+\)\@<=\w\+\(\s\+struct\s\+{\)\@=/
+endif
+hi def link     goStruct						Function
+hi def link     goStructDef         Function
 
 " Search backwards for a global declaration to start processing the syntax.
 "syn sync match goSync grouphere NONE /^\(const\|var\|type\|func\)\>/
